@@ -3,16 +3,16 @@ package a4_40082638_40042586;
 import java.util.Arrays;
 
 public class MyHashTable_SeperateChaining extends MyHashTable {
-	private Element[] elements;
+	private Element[][] elements;
 	private int size;
 	
 	public MyHashTable_SeperateChaining() {
-		elements = new Element[10];
+		elements = new Element[10][10];
 		this.size = 0;
 	}
 	
 	public MyHashTable_SeperateChaining(int size) {
-		elements = new Element[size];
+		elements = new Element[size][size/2];
 		this.size = 0;
 	}
 
@@ -32,7 +32,7 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 
 	@Override
 	public Element get(int key) {
-		return elements[key%size];
+		return elements[key%size][key];
 	}
 
 	@Override
@@ -46,12 +46,12 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 					hashCode = (int) Math.pow(probe++, 2);
 				}
 				
-				elements[hashCode%size] = element;
+				elements[hashCode%size][key] = element;
 				size++;
 			}
 			catch (ArithmeticException e) {
 				System.out.println("hi");
-				elements[0] = element;
+				elements[0][key] = element;
 			}
 		}
 		return element;
@@ -59,7 +59,7 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 
 	@Override
 	public Element remove(int key) {
-		Element e = elements[key%size];
+		Element e = elements[key%size][key];
 		elements[key%size] = null;
 		size--;
 		return e;
