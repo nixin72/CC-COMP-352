@@ -31,12 +31,12 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 	}
 
 	@Override
-	public String get(int key) {
-		return elements[key].getValue();
+	public Element get(int key) {
+		return elements[key];
 	}
 
 	@Override
-	public void put(int key, String value) {
+	public Element put(int key, String value) {
 		Element element = new Element(key,value);
 		int hashCode = element.hashCode();
 		if (!isFull()) {
@@ -54,12 +54,15 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 				elements[0] = element;
 			}
 		}
+		return element;
 	}
 
 	@Override
-	public void remove(int key) {
+	public Element remove(int key) {
+		Element e = elements[key%size];
 		elements[key%size] = null;
 		size--;
+		return e;
 	}
 	
 	private boolean hasCollision(int index) {

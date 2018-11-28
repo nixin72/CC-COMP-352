@@ -24,6 +24,8 @@ public class MyHashTable_Test {
 		class Test {			
 			public void testPut() {
 				MyHashTable_SeperateChaining sc = new MyHashTable_SeperateChaining(10);
+				Element expected = null;
+				Element actual = sc.put(0, "test");
 			}
 			
 			public void testGet() {
