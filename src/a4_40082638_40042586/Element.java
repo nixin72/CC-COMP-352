@@ -3,7 +3,7 @@ package a4_40082638_40042586;
 import java.util.Random;
 
 public class Element {
-	private int key;
+	private Integer key;
 	private String value;
 
 	public Element() {
@@ -11,7 +11,7 @@ public class Element {
 		this.value = "";
 	};
 
-	public Element(int key, String value) {
+	public Element(Integer key, String value) {
 		this.key = key;
 		this.value = value;
 	}
@@ -23,11 +23,11 @@ public class Element {
 		this.value = value;
 	}
 
-	public int getKey() {
+	public Integer getKey() {
 		return key;
 	}
 
-	public void setKey(int key) {
+	public void setKey(Integer key) {
 		this.key = key;
 	}
 
@@ -41,13 +41,17 @@ public class Element {
 
 	@Override
 	public int hashCode() {
-		//returns the HashCode using polynomial accumulation
-		final int prime = 31;
-		int result = 0;
-		for (int i = 0; i < value.length(); i++) {
-			result = prime * result + value.charAt(i);}
-		return result;
-	}
+        int hash = 0 ;
+        for (int i = 0; i < key; i++) {
+            hash = (hash << 5) | (hash >>> 27); 
+            hash += key % 10 ; 
+            key = key / 10 ;
+        }
+        return hash ;
+    }
+	
+	
+	
 	
 
 }
