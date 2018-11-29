@@ -41,6 +41,7 @@ public class Element {
 
 	@Override
 	public int hashCode() {
+		
         int hash = 0 ;
         for (int i = 0; i < key; i++) {
             hash = (hash << 5) | (hash >>> 27); 
@@ -49,6 +50,11 @@ public class Element {
         }
         return hash ;
     }
+
+	@Override
+	public String toString() {
+		return "[key=" + key + ", value=" + value + "]";
+	}
 	
 	
 	
