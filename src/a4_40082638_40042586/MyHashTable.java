@@ -18,6 +18,8 @@ public abstract class MyHashTable {
 	public boolean isEmpty() {
 		return size==0;
 	}
+	
+	public abstract boolean isFull();
 	public abstract Element get(int key);
 	public abstract Element put(int key, String value);
 	public abstract Element remove(int key);

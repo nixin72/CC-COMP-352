@@ -7,24 +7,17 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 	private int size;
 	
 	public MyHashTable_LinearProbing() {
-		elements = new Element[10];
+		super();
+		elements = new Element[size];
 		this.size = 0;
 	}
 	
 	public MyHashTable_LinearProbing(int size) {
+		super(size);
 		elements = new Element[size];
 		this.size = 0;
 	}
 
-	@Override
-	public int size() {
-		return size;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return size==0;
-	}
 	
 	public boolean isFull() {
 		return size == elements.length;
