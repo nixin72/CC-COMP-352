@@ -26,6 +26,24 @@ public class MyHashTable_Test {
 				MyHashTable_SeperateChaining sc = new MyHashTable_SeperateChaining(10);
 				Element expected = null;
 				Element actual = sc.put(0, "test");
+				
+				assertEq(expected, actual, "Separate Chaining: Put first element into hash table.");
+				
+				expected = actual;
+				actual = sc.put(0, "override element");
+				assertEq(expected, actual, "Separate Chaining: Override first element in the hash table.");
+				
+				expected = null;
+				actual = sc.put(1, "new elment");
+				assertEq(expected, actual, "Separate Chaining: Add a second element to the hash table.");
+				
+				expected = null;
+				actual = sc.put(2, "another new element");
+				assertEq(expected, actual, "Separate Chaining: add another element to the hash table.");
+				
+				expected = null;
+				actual = sc.put(2, "Overriding key 2");
+				assertEq(expected, actual, "Separate Chaining: overriding the key 2 in the hash table.");
 			}
 			
 			public void testGet() {
@@ -128,5 +146,17 @@ public class MyHashTable_Test {
 		test.testSize();
 		test.testIsEmpty();
 		test.testIsFull();
+	}
+	
+	public static void assertEq(Element actual, Element expected, String message) {
+		if (actual != null && expected == null) {
+			System.out.println(message + "\nActual: " + actual.toString() + "\nExpected: " + expected);
+		}
+		else if (actual == null && expected != null) {
+			System.out.println(message + "\nActual: " + actual + "\nExpected: " + expected.toString());
+		}
+		else if (!actual.equals(expected)) {
+			System.out.println(message + "\nActual: " + actual.toString() + "\nExpected: " + expected.toString());
+		}
 	}
 }

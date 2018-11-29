@@ -50,8 +50,10 @@ public class Element {
         return hash ;
     }
 	
-	
-	
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 	
 
 }
