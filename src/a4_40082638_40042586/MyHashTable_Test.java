@@ -131,16 +131,97 @@ public class MyHashTable_Test {
 		class Test {	
 			MyHashTable sc;
 			
-			public void testPut() {
+			public void testPut() {				
+				sc = new MyHashTable_LinearProbing(10);
+				testSizeChecks(0, true, false);
 				
+				Element expected = null;
+				Element actual = sc.put(0, "test");
+				assertEq(expected, actual, "Separate Chaining: Put first element into hash table.");
+				testSizeChecks(1, false, false);
+				
+				expected = actual;
+				actual = sc.put(0, "override element");
+				assertEq(expected, actual, "Separate Chaining: Override first element in the hash table.");
+				testSizeChecks(1, false, false);
+				
+				expected = null;
+				actual = sc.put(1, "new elment");
+				assertEq(expected, actual, "Separate Chaining: Add a second element to the hash table.");
+				
+				expected = null;
+				actual = sc.put(2, "another new element");
+				assertEq(expected, actual, "Separate Chaining: add another element to the hash table.");
+				
+				expected = null;
+				actual = sc.put(2, "Overriding key 2");
+				assertEq(expected, actual, "Separate Chaining: overriding the key 2 in the hash table.");
 			}
 			
 			public void testGet() {
+				Element expected = new Element(0, "override element");
+				Element actual = sc.get(0);
+				assertEq(expected, actual, "Separate Chaining: getting the first element in the hash table.");
+				testSizeChecks(1, false, false);
 				
+				expected = new Element(1, "new elment");
+				actual = sc.get(1);
+				assertEq(expected, actual, "Separate Chaining: getting the second element in the hash table.");
+				testSizeChecks(2, false, false);
+				
+				expected = new Element(2, "Overriding key 2");
+				actual = sc.get(2);
+				assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+				testSizeChecks(3, false, false);
+				
+				try {
+					actual = sc.get(3);
+					expected = new Element(3, "Overriding key 2");
+					assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+				}
+				catch (IndexOutOfBoundsException e) {
+					assertEq(
+							new Element(-1, "IndexOutOfBoundsException"), 
+							new Element(-1, "IndexOutOfBoundsException"), 
+							"Separate Chaining: getting the third element in the hash table."
+					);
+				}
+				finally {
+					testSizeChecks(3, false, false);
+				}
 			}
 			
 			public void testRemove() {
+				Element expected = new Element(0, "override element");
+				Element actual = sc.remove(0);
+				assertEq(expected, actual, "Separate Chaining: getting the first element in the hash table.");
+				testSizeChecks(2, false, false);
 				
+				expected = new Element(1, "new elment");
+				actual = sc.remove(1);
+				assertEq(expected, actual, "Separate Chaining: getting the second element in the hash table.");
+				testSizeChecks(1, false, false);
+				
+				expected = new Element(2, "Overriding key 2");
+				actual = sc.remove(2);
+				assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+				testSizeChecks(0, true, false);
+				
+				try {
+					actual = sc.remove(3);
+					expected = new Element(3, "Overriding key 2");
+					assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+				}
+				catch (IndexOutOfBoundsException e) {
+					assertEq(
+							new Element(-1, "IndexOutOfBoundsException"), 
+							new Element(-1, "IndexOutOfBoundsException"), 
+							"Separate Chaining: getting the third element in the hash table."
+					);
+				}
+				finally {
+					testSizeChecks(0, true, false);
+				}
 			}
 			
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
@@ -159,28 +240,105 @@ public class MyHashTable_Test {
 	@org.junit.Test
 	public static void Test_QuadraticProbing() {
 		class Test {			
-			public void testPut() {
+			MyHashTable sc;
+			
+			public void testPut() {				
+				sc = new MyHashTable_QuadradicProbing(10);
+				testSizeChecks(0, true, false);
 				
+				Element expected = null;
+				Element actual = sc.put(0, "test");
+				assertEq(expected, actual, "Separate Chaining: Put first element into hash table.");
+				testSizeChecks(1, false, false);
+				
+				expected = actual;
+				actual = sc.put(0, "override element");
+				assertEq(expected, actual, "Separate Chaining: Override first element in the hash table.");
+				testSizeChecks(1, false, false);
+				
+				expected = null;
+				actual = sc.put(1, "new elment");
+				assertEq(expected, actual, "Separate Chaining: Add a second element to the hash table.");
+				
+				expected = null;
+				actual = sc.put(2, "another new element");
+				assertEq(expected, actual, "Separate Chaining: add another element to the hash table.");
+				
+				expected = null;
+				actual = sc.put(2, "Overriding key 2");
+				assertEq(expected, actual, "Separate Chaining: overriding the key 2 in the hash table.");
 			}
 			
 			public void testGet() {
+				Element expected = new Element(0, "override element");
+				Element actual = sc.get(0);
+				assertEq(expected, actual, "Separate Chaining: getting the first element in the hash table.");
+				testSizeChecks(1, false, false);
 				
+				expected = new Element(1, "new elment");
+				actual = sc.get(1);
+				assertEq(expected, actual, "Separate Chaining: getting the second element in the hash table.");
+				testSizeChecks(2, false, false);
+				
+				expected = new Element(2, "Overriding key 2");
+				actual = sc.get(2);
+				assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+				testSizeChecks(3, false, false);
+				
+				try {
+					actual = sc.get(3);
+					expected = new Element(3, "Overriding key 2");
+					assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+				}
+				catch (IndexOutOfBoundsException e) {
+					assertEq(
+							new Element(-1, "IndexOutOfBoundsException"), 
+							new Element(-1, "IndexOutOfBoundsException"), 
+							"Separate Chaining: getting the third element in the hash table."
+					);
+				}
+				finally {
+					testSizeChecks(3, false, false);
+				}
 			}
 			
 			public void testRemove() {
+				Element expected = new Element(0, "override element");
+				Element actual = sc.remove(0);
+				assertEq(expected, actual, "Separate Chaining: getting the first element in the hash table.");
+				testSizeChecks(2, false, false);
 				
+				expected = new Element(1, "new elment");
+				actual = sc.remove(1);
+				assertEq(expected, actual, "Separate Chaining: getting the second element in the hash table.");
+				testSizeChecks(1, false, false);
+				
+				expected = new Element(2, "Overriding key 2");
+				actual = sc.remove(2);
+				assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+				testSizeChecks(0, true, false);
+				
+				try {
+					actual = sc.remove(3);
+					expected = new Element(3, "Overriding key 2");
+					assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+				}
+				catch (IndexOutOfBoundsException e) {
+					assertEq(
+							new Element(-1, "IndexOutOfBoundsException"), 
+							new Element(-1, "IndexOutOfBoundsException"), 
+							"Separate Chaining: getting the third element in the hash table."
+					);
+				}
+				finally {
+					testSizeChecks(0, true, false);
+				}
 			}
 			
-			public void testSize() {
-				
-			}
-			
-			public void testIsEmpty() {
-				
-			}
-			
-			public void testIsFull() {
-				
+			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
+				assertEq(size, sc.size(), "Separate Chaining: Size check after each operation.");
+				assertEq(isEmpty, sc.isEmpty(), "Separate Chaining: empty check after each operation.");
+				assertEq(isFull, sc.isFull(), "Separate Chaining: full check after each operation.");
 			}
 		}
 		
@@ -188,9 +346,6 @@ public class MyHashTable_Test {
 		test.testPut();
 		test.testGet();
 		test.testRemove();
-		test.testSize();
-		test.testIsEmpty();
-		test.testIsFull();
 	}
 	
 	public static void assertEq(Element actual, Element expected, String message) {

@@ -55,9 +55,4 @@ public class Element {
 	public String toString() {
 		return "[key=" + key + ", value=" + value + "]";
 	}
-	
-	
-	
-	
-
 }
