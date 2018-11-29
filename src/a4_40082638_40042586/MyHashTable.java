@@ -19,7 +19,6 @@ public abstract class MyHashTable {
 		return size==0;
 	}
 	
-	public abstract boolean isFull();
 	public abstract Element get(int key);
 	public abstract Element put(int key, String value);
 	public abstract Element remove(int key);

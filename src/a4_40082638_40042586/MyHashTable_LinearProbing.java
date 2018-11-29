@@ -72,4 +72,16 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		map.put(3, "hamza");
 		System.out.println(map.toString());
 	}
+
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
