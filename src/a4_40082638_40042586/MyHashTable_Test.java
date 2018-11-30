@@ -118,7 +118,7 @@ public class MyHashTable_Test {
 			}
 			
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
-				assertEq(size, sc.size(), "Separate Chaining: Size check after each operation.");
+				assertEq(size, sc.getSize(), "Separate Chaining: Size check after each operation.");
 				assertEq(isEmpty, sc.isEmpty(), "Separate Chaining: empty check after each operation.");
 			}
 		}
@@ -228,8 +228,8 @@ public class MyHashTable_Test {
 			}
 			
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
-				assertEq(size, sc.size(), "Test_LinearProbing: Size check after each operation.");
-				assertEq(isEmpty, sc.isEmpty(), "Test_LinearProbing: empty check after each operation.");
+				assertEq(size, sc.getSize(), "Separate Chaining: Size check after each operation.");
+				assertEq(isEmpty, sc.isEmpty(), "Separate Chaining: empty check after each operation.");
 			}
 		}
 		
@@ -338,7 +338,7 @@ public class MyHashTable_Test {
 			}
 			
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
-				assertEq(size, sc.size(), "Test_QuadraticProbing: Size check after each operation.");
+				assertEq(size, sc.getSize(), "Test_QuadraticProbing: Size check after each operation.");
 				assertEq(isEmpty, sc.isEmpty(), "Test_QuadraticProbing: empty check after each operation.");
 			}
 		}
