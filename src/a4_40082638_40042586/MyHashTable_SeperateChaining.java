@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class MyHashTable_SeperateChaining extends MyHashTable {
 	private Element[][] elements;
-	private int size;
 	
 	public MyHashTable_SeperateChaining() {
 		elements = new Element[10][10];

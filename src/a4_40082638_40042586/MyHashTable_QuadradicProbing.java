@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class MyHashTable_QuadradicProbing extends MyHashTable {
 	private Element[] elements;
-	private int size;
 	
 	public MyHashTable_QuadradicProbing() {
 		elements = new Element[10];

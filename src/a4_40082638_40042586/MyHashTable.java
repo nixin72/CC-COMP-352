@@ -1,7 +1,7 @@
 package a4_40082638_40042586;
 
 public abstract class MyHashTable {
-	private int size;
+	protected int size;
 	
 	public MyHashTable(int size){
 		this.size = size;

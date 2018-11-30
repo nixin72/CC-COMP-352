@@ -116,7 +116,6 @@ public class MyHashTable_Test {
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
 				assertEq(size, sc.size(), "Separate Chaining: Size check after each operation.");
 				assertEq(isEmpty, sc.isEmpty(), "Separate Chaining: empty check after each operation.");
-				assertEq(isFull, sc.isFull(), "Separate Chaining: full check after each operation.");
 			}
 		}
 		
@@ -227,7 +226,6 @@ public class MyHashTable_Test {
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
 				assertEq(size, sc.size(), "Separate Chaining: Size check after each operation.");
 				assertEq(isEmpty, sc.isEmpty(), "Separate Chaining: empty check after each operation.");
-				assertEq(isFull, sc.isFull(), "Separate Chaining: full check after each operation.");
 			}
 		}
 		
@@ -338,7 +336,6 @@ public class MyHashTable_Test {
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
 				assertEq(size, sc.size(), "Separate Chaining: Size check after each operation.");
 				assertEq(isEmpty, sc.isEmpty(), "Separate Chaining: empty check after each operation.");
-				assertEq(isFull, sc.isFull(), "Separate Chaining: full check after each operation.");
 			}
 		}
 		
