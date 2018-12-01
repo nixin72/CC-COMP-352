@@ -65,6 +65,7 @@ public abstract class MyHashTable {
 		
 	}
 	
+	
 	protected abstract int compress(int hashcode);
 	protected abstract boolean hasCollision(int index);
 	

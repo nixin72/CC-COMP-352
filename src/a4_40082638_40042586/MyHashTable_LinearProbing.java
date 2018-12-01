@@ -1,10 +1,13 @@
 package a4_40082638_40042586;
 
 import java.util.Arrays;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Random;
 
 public class MyHashTable_LinearProbing extends MyHashTable {
-	int p,b,c;
+	private int p,b,c;
+	private int probingattempts = 0;
 	
 	private Element[] elements;
 	
@@ -14,6 +17,7 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		p = nextPrime(capacity);
 		b = new Random().nextInt(capacity-1);
 		c = new Random().nextInt(capacity-2)+1;
+		setLoadFactor(0.5);
 	}
 	
 	public MyHashTable_LinearProbing(int capacity) {
@@ -22,6 +26,7 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		p = nextPrime(capacity);
 		b = new Random().nextInt(capacity-1);
 		c = new Random().nextInt(capacity-2)+1;
+		setLoadFactor(0.5);
 }
  
 
@@ -45,51 +50,121 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 
 	@Override
 	public Element get(int key) {
-		return elements[key];
+		return findElement(key);
 	}
 	
 
 	@Override
 	public Element put(int key, String value) {
+		Instant start = Instant.now();
+        int probez = 0;
         Element element;
         int hashCode;
 		try {
 			if(findElement(key).getKey()!=key) {
-				throw new NullPointerException();
+				throw new CollisionException();
 			}
 			else {
 			findElement(key).setValue(value);
+			Instant end = Instant.now();
+			Duration timeElapsed = Duration.between(start, end);
+			System.out.println("capacity of the table:" + capacity);
+			System.out.println("Size of the table:" + size);
+			System.out.println("Probing attempts:" + probez);
+			System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
 			return findElement(key);}
+		}
+		catch(CollisionException e) {
+			element = new Element(key,value);
+			hashCode = element.hashCode();
+			while(hasCollision(compress(hashCode))) {
+				probez++;
+				probingattempts++;
+				hashCode++;
+			}
 		}
 		catch(NullPointerException e) {
 			element = new Element(key,value);
 			hashCode = element.hashCode();
-			while(hasCollision(compress(hashCode))) {
-				hashCode++;
-			}
+			elements[compress(hashCode)] = element;
 		}
 		size++;
+		Instant end = Instant.now();
+		Duration timeElapsed = Duration.between(start, end);
+		element = new Element(key,value);
 		elements[compress(hashCode)] = element;
+		if((double) size/capacity>=loadfactor) {
+			resize(nextPrime(capacity*2));
+		}
+		System.out.println(start);
+		System.out.println(end);
+		System.out.println("capacity of the table:" + capacity);
+		System.out.println("Size of the table:" + size);
+		System.out.println("Probing attempts:" + probez);
+		System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
 		return element;
 	}
 
 	@Override
 	public Element remove(int key) {
-		Element e = elements[compress(capacity)];
-		elements[compress(capacity)] = null;
-		size--;
-		return e;
+		Instant start = Instant.now();
+        Element element;
+        int hashCode;
+		try {
+			element = new Element(findElement(key));
+			if(findElement(key).getKey()!=key) {
+				throw new CollisionException();
+			}
+			else {
+				
+			findElement(key).setValue(null);
+			findElement(key).setKey(null);
+			findElement(key).setAvailable(true);
+			return element;}
+		}
+		catch(CollisionException e) {
+			hashCode = new Element(key,null).hashCode();
+			while(hasCollision(compress(hashCode))) {
+				if(key==elements[compress(hashCode)].getKey()) {
+					break;}
+				probingattempts++;
+				hashCode++;
+			}
+		}
+		catch(NullPointerException e) {
+			return null;
+		}
+		try {
+		element = new Element(elements[compress(hashCode)]);
+		elements[compress(hashCode)].setAvailable(true);
+		elements[compress(hashCode)].setKey(null);
+		elements[compress(hashCode)].setValue(null);
+		size--;}
+		catch(NullPointerException e) {
+			return null;
+		}          
+		
+		Instant end = Instant.now();
+		Duration timeElapsed = Duration.between(start, end);
+		System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
+		return element;
+		
 	}
 	
 	@Override
 	protected boolean hasCollision(int index) {
-		return elements[index] != null;
+		try {
+		return elements[index].available==false;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
 	}
 	
 	@Override
 	protected int compress(int hashcode) {
-		//MAD compression method
-		return ((((c*hashcode)+b)%p) & 0x7fffffff)%capacity;
+
+		return (hashcode & 0x7fffffff)%capacity;
 	}
 	
 	@Override
@@ -99,11 +174,14 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 
 	public static void main(String[] args) {
 		MyHashTable_LinearProbing map = new MyHashTable_LinearProbing();
-		
-		map.put(3, "hamza");
-		map.put(8, "ahmed");
-		map.put(13, "abdulrahman");
-		map.put(3, "sara");
+		for(int i = 0; i < 100; i++) {
+			Element a = new Element("");
+			map.put(a.getKey(),"JOB"+i);
+		}
+		System.out.println(map.toString());
+		for(int i = 0; i<50; i++) {
+			System.out.println(map.remove(i));
+		}
 		System.out.println(map.toString());
 	}
 }
