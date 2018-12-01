@@ -14,16 +14,6 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		elements = new Element[size][size/2];
 		this.size = 0;
 	}
-
-	@Override
-	public int size() {
-		return size;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return size==0;
-	}
 	
 	public boolean isFull() {
 		return size == elements.length;
@@ -49,7 +39,7 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 				size++;
 			}
 			catch (ArithmeticException e) {
-				System.out.println("hi");
+				System.out.println("Exception when putting");
 				elements[0][key] = element;
 			}
 		}
