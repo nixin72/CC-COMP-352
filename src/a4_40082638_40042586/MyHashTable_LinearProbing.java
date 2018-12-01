@@ -38,7 +38,7 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 				}
 			}
 			catch(ArithmeticException e) {
-				System.out.println("hi");
+				System.out.println("Exception when putting");
 				elements[0] = element;
 			}
 			elements[hashCode%size]=element;
@@ -70,17 +70,5 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		map.put(3, "hi");
 		map.put(3, "hamza");
 		System.out.println(map.toString());
-	}
-
-	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

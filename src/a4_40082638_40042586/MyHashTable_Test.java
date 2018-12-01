@@ -13,10 +13,6 @@ public class MyHashTable_Test {
 		test.testHashCode();
 	}
 	
-	public static void main(String[] args) {
-		
-	}
-	
 	@org.junit.Test
 	public void Test_SeperateChaining() {
 		class Test {
