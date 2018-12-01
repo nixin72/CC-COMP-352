@@ -41,14 +41,13 @@ public class Element {
 
 	@Override
 	public int hashCode() {
-		
-        int hash = 0 ;
-        for (int i = 0; i < key; i++) {
-            hash = (hash << 5) | (hash >>> 27); 
-            hash += key % 10 ; 
-            key = key / 10 ;
-        }
-        return hash ;
+		int hash = 0;
+		int keyval = key;
+		int number = 33;
+		for(int i = 0; i<16;i++) {
+		hash = (int) ((keyval >> i) & 1) + number*hash;
+		}
+        return hash;
     }
 
 	@Override
