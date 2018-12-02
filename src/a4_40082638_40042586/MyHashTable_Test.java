@@ -1,7 +1,9 @@
 package a4_40082638_40042586;
 
+import org.junit.*;
+
 public class MyHashTable_Test {
-	@org.junit.Test
+//	@org.junit.Test
 	public void Test_Element() {
 		class Test {			
 			public void testHashCode() {
@@ -13,14 +15,12 @@ public class MyHashTable_Test {
 		test.testHashCode();
 	}
 	
-	@org.junit.Test
+//	@org.junit.Test
 	public void Test_SeperateChaining() {
 		class Test {
 			MyHashTable sc;
 			
-			public void testPut() {		
-				String[] args = new String[10];
-				
+			public void testPut() {
 				sc = new MyHashTable_SeperateChaining(10);
 				testSizeChecks(0, true, false);
 				
@@ -114,7 +114,7 @@ public class MyHashTable_Test {
 			}
 			
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
-				assertEq(size, sc.size(), "Separate Chaining: Size check after each operation.");
+				assertEq(size, sc.getSize(), "Separate Chaining: Size check after each operation.");
 				assertEq(isEmpty, sc.isEmpty(), "Separate Chaining: empty check after each operation.");
 			}
 		}
@@ -130,7 +130,7 @@ public class MyHashTable_Test {
 		class Test {	
 			MyHashTable sc;
 			
-			public void testPut() {				
+			public void testPut() {
 				sc = new MyHashTable_LinearProbing(10);
 				testSizeChecks(0, true, false);
 				
@@ -224,7 +224,7 @@ public class MyHashTable_Test {
 			}
 			
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
-				assertEq(size, sc.size(), "Test_LinearProbing: Size check after each operation.");
+				assertEq(size, sc.getSize(), "Test_LinearProbing: Size check after each operation.");
 				assertEq(isEmpty, sc.isEmpty(), "Test_LinearProbing: empty check after each operation.");
 			}
 		}
@@ -235,12 +235,12 @@ public class MyHashTable_Test {
 		test.testRemove();
 	}
 	
-	@org.junit.Test
+//	@org.junit.Test
 	public void Test_QuadraticProbing() {
 		class Test {			
 			MyHashTable sc;
 			
-			public void testPut() {				
+			public void testPut() {
 				sc = new MyHashTable_QuadradicProbing(10);
 				testSizeChecks(0, true, false);
 				
@@ -323,9 +323,9 @@ public class MyHashTable_Test {
 				}
 				catch (IndexOutOfBoundsException e) {
 					assertEq(
-							new Element(-1, "IndexOutOfBoundsException"), 
-							new Element(-1, "IndexOutOfBoundsException"), 
-							"Test_QuadraticProbing: getting the third element in the hash table."
+						new Element(-1, "IndexOutOfBoundsException"), 
+						new Element(-1, "IndexOutOfBoundsException"), 
+						"Test_QuadraticProbing: getting the third element in the hash table."
 					);
 				}
 				finally {
@@ -334,7 +334,7 @@ public class MyHashTable_Test {
 			}
 			
 			public void testSizeChecks(int size, boolean isEmpty, boolean isFull) {
-				assertEq(size, sc.size(), "Test_QuadraticProbing: Size check after each operation.");
+				assertEq(size, sc.getSize(), "Test_QuadraticProbing: Size check after each operation.");
 				assertEq(isEmpty, sc.isEmpty(), "Test_QuadraticProbing: empty check after each operation.");
 			}
 		}
@@ -347,25 +347,25 @@ public class MyHashTable_Test {
 	
 	public void assertEq(Element expected, Element actual, String message) {
 		if (actual != null && expected == null) {
-			System.out.println(message + "\nActual: " + actual.toString() + "\nExpected: " + expected);
+			Assert.fail(message + "\nActual: " + actual.toString() + "\nExpected: " + expected);
 		}
 		else if (actual == null && expected != null) {
-			System.out.println(message + "\nActual: " + actual + "\nExpected: " + expected.toString());
+			Assert.fail(message + "\nActual: " + actual + "\nExpected: " + expected.toString());
 		}
 		else if (!actual.equals(expected)) {
-			System.out.println(message + "\nActual: " + actual.toString() + "\nExpected: " + expected.toString());
+			Assert.fail(message + "\nActual: " + actual.toString() + "\nExpected: " + expected.toString());
 		}
 	}
 	
 	public void assertEq(int expected, int actual, String message) {
 		if (actual != expected) {
-			System.out.println(message + "\nActual: " + actual + "\nExpected: " + expected);
+			Assert.fail(message + "\nActual: " + actual + "\nExpected: " + expected);
 		}
 	}
 	
 	public void assertEq(boolean expected, boolean actual, String message) {
 		if (actual != expected) {
-			System.out.println(message + "\nActual: " + actual + "\nExpected: " + expected);
+			Assert.fail(message + "\nActual: " + actual + "\nExpected: " + expected);
 		}
 	}
 }

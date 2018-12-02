@@ -31,7 +31,7 @@ public abstract class MyHashTable {
 	}
 	
 	public void setLoadFactor(double newloadfactor) {
-		this.loadfactor =  newloadfactor;
+		this.loadfactor = newloadfactor;
 	}
 	
 	public void setCapacity(int capacity) {
@@ -44,25 +44,26 @@ public abstract class MyHashTable {
 
 	
 	public boolean isEmpty() {
-		return size==0;
+		return size == 0;
 	}
 	
 	protected int nextPrime(int input){
-		  int counter;
-		  input++;   
-		  while(true){
-		    counter = 0;
-		    for(int i = 2; i <= Math.sqrt(input); i ++){
-		      if(input % i == 0)  counter++;
-		    }
-		    if(counter == 0)
-		      return input;
-		    else{
-		      input++;
-		      continue;
-		    }
-		  }
-		
+		int counter;
+		input++;   
+		while (true){
+			counter = 0;
+			for (int i = 2; i <= Math.sqrt(input); i++){
+				if (input % i == 0)  
+					counter++;
+			}
+			
+			if (counter == 0)
+				return input;
+			else {
+				input++;
+				continue;
+			}
+		}
 	}
 	
 	

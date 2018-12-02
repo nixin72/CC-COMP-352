@@ -1,61 +1,182 @@
 package a4_40082638_40042586;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Random;
 
 public class MyHashTable_SeperateChaining extends MyHashTable {
+	private int p,b,c;
+	private int probingattempts = 0;
+	
 	private Element[][] elements;
 	
 	public MyHashTable_SeperateChaining() {
-		elements = new Element[10][10];
-		this.size = 0;
+		super();
+		elements = new Element[getCapacity()][10];
+		p = nextPrime(capacity);
+		b = new Random().nextInt(capacity-1);
+		c = new Random().nextInt(capacity-2)+1;
+		setLoadFactor(0.5);
 	}
 	
-	public MyHashTable_SeperateChaining(int size) {
-		elements = new Element[size][size/2];
-		this.size = 0;
+	public MyHashTable_SeperateChaining(int capacity) {
+		super(capacity);
+		elements = new Element[capacity][10];
+		p = nextPrime(capacity);
+		b = new Random().nextInt(capacity-1);
+		c = new Random().nextInt(capacity-2)+1;
+		setLoadFactor(0.5);
+	}
+
+	
+	protected Element findElement(Integer key) {
+        return elements[compress(new Element(key,"").hashCode())][key];
 	}
 	
-	public boolean isFull() {
-		return size == elements.length;
+	public void resize(int newcap) {
+		Element[][] newelem = {new Element[newcap]};
+		for (int i = 0 ; i < capacity ; i++) {
+			newelem[i] = elements[i];
+		}
+		
+		elements = newelem;
+		capacity = newcap;
+		p = nextPrime(capacity);
+		b = new Random().nextInt(capacity-1);
+		c = new Random().nextInt(capacity-2)+1;
 	}
+	
 
 	@Override
 	public Element get(int key) {
-		return elements[key%size][key];
+		return findElement(key);
 	}
+	
 
 	@Override
 	public Element put(int key, String value) {
-		Element element = new Element(key,value);
-		int hashCode = element.hashCode();
-		if (!isFull()) {
-			try {
-				int probe = 1;
-				while(hasCollision(hashCode%size)) {
-					hashCode = (int) Math.pow(probe++, 2);
-				}
-				
-				elements[hashCode%size][key] = element;
-				size++;
+		Instant start = Instant.now();
+		Element element;
+        int probez = 0;
+        int hashCode;
+        
+		try {
+			if (findElement(key).getKey() != key) {
+				throw new CollisionException();
 			}
-			catch (ArithmeticException e) {
-				System.out.println("Exception when putting");
-				elements[0][key] = element;
+			else {
+				findElement(key).setValue(value);
+				Instant end = Instant.now();
+				Duration timeElapsed = Duration.between(start, end);
+				System.out.println("capacity of the table:" + capacity);
+				System.out.println("Size of the table:" + size);
+				System.out.println("Probing attempts:" + probez);
+				System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
+				
+				return findElement(key);
 			}
 		}
+		catch(CollisionException e) {
+			element = new Element(key,value);
+			hashCode = element.hashCode();
+			
+			while(hasCollision(compress(hashCode))) {
+				probez++;
+				probingattempts++;
+				hashCode++;
+			}
+		}
+		catch(NullPointerException e) {
+			element = new Element(key,value);
+			hashCode = element.hashCode();
+			elements[compress(hashCode)][key] = element;
+		}
+		
+		size++;
+		Instant end = Instant.now();
+		Duration timeElapsed = Duration.between(start, end);
+		element = new Element(key,value);
+		elements[compress(hashCode)][key] = element;
+		
+		if ((double) size/capacity >= loadfactor) {
+			resize(nextPrime(capacity*2));
+		}
+		
+		System.out.println(start);
+		System.out.println(end);
+		System.out.println("capacity of the table:" + capacity);
+		System.out.println("Size of the table:" + size);
+		System.out.println("Probing attempts:" + probez);
+		System.out.println("Time taken: " + timeElapsed.toNanos() + " nanoseconds");
+		
 		return element;
 	}
 
 	@Override
 	public Element remove(int key) {
-		Element e = elements[key%size][key];
-		elements[key%size] = null;
-		size--;
-		return e;
+		Instant start = Instant.now();
+        Element element;
+        int hashCode;
+		try {
+			element = new Element(findElement(key));
+			
+			if (findElement(key).getKey()!=key) {
+				throw new CollisionException();
+			}
+			else {				
+				findElement(key).setValue(null);
+				findElement(key).setKey(null);
+				findElement(key).setAvailable(true);
+				return element;
+			}
+		}
+		catch(CollisionException e) {
+			hashCode = new Element(key, null).hashCode();
+			while (hasCollision(compress(hashCode))) {
+				if (key == elements[compress(hashCode)][key].getKey()) {
+					break;
+				}
+				probingattempts++;
+				hashCode++;
+			}
+		}
+		catch(NullPointerException e) {
+			return null;
+		}
+		
+		
+		try {
+			element = new Element(elements[compress(hashCode)][key]);
+			elements[compress(hashCode)][key].setAvailable(true);
+			elements[compress(hashCode)][key].setKey(null);
+			elements[compress(hashCode)][key].setValue(null);
+			size--;
+		}
+		catch(NullPointerException e) {
+			return null;
+		}          
+		
+		Instant end = Instant.now();
+		Duration timeElapsed = Duration.between(start, end);
+		System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
+		return element;
+		
 	}
 	
-	private boolean hasCollision(int index) {
-		return elements[index] != null;
+	@Override
+	protected boolean hasCollision(int index) {
+		try {
+			return elements[index][0] != null;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
+	}
+	
+	@Override
+	protected int compress(int hashcode) {
+		return (hashcode & 0x7fffffff) % capacity;
 	}
 	
 	@Override
@@ -64,9 +185,16 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 	}
 
 	public static void main(String[] args) {
-		MyHashTable_SeperateChaining map = new MyHashTable_SeperateChaining(100);
-		map.put(3, "hi");
-		map.put(3,"hamza");
+		MyHashTable_LinearProbing map = new MyHashTable_LinearProbing();
+		for(int i = 0; i < 100; i++) {
+			Element a = new Element("");
+			map.put(a.getKey(),"JOB"+i);
+		}
+		System.out.println(map.toString());
+		
+		for(int i = 0; i<50; i++) {
+			System.out.println(map.remove(i));
+		}
 		System.out.println(map.toString());
 	}
 }
