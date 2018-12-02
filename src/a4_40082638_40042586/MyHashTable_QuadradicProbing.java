@@ -57,12 +57,14 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 		Element element;
         int probez = 0;
         int hashCode;
+        Element replaced = null;
         
 		try {
 			if (findElement(key).getKey() != key) {
 				throw new CollisionException();
 			}
 			else {
+				replaced = new Element(key, findElement(key).getValue());
 				findElement(key).setValue(value);
 				Instant end = Instant.now();
 				Duration timeElapsed = Duration.between(start, end);
@@ -71,7 +73,7 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 				System.out.println("Probing attempts:" + probez);
 				System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
 				
-				return findElement(key);
+				return replaced;
 			}
 		}
 		catch(CollisionException e) {
@@ -81,7 +83,7 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 			while(hasCollision(compress(hashCode))) {
 				probez++;
 				probingattempts++;
-				hashCode++;
+				hashCode = (int) Math.pow(probez, 2);
 			}
 		}
 		catch(NullPointerException e) {
@@ -107,7 +109,7 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 		System.out.println("Probing attempts:" + probez);
 		System.out.println("Time taken: " + timeElapsed.toNanos() + " nanoseconds");
 		
-		return element;
+		return replaced;
 	}
 
 	@Override
@@ -115,16 +117,19 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 		Instant start = Instant.now();
         Element element;
         int hashCode;
+        int probez = 0;
+        
 		try {
 			element = new Element(findElement(key));
 			
-			if (findElement(key).getKey()!=key) {
+			if (findElement(key).getKey() != key) {
 				throw new CollisionException();
 			}
 			else {				
 				findElement(key).setValue(null);
 				findElement(key).setKey(null);
 				findElement(key).setAvailable(true);
+				size--;
 				return element;
 			}
 		}
@@ -134,8 +139,9 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 				if (key == elements[compress(hashCode)].getKey()) {
 					break;
 				}
+				probez++;
 				probingattempts++;
-				hashCode++;
+				hashCode = (int) Math.pow(probez, 2);
 			}
 		}
 		catch(NullPointerException e) {
@@ -157,6 +163,7 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 		Instant end = Instant.now();
 		Duration timeElapsed = Duration.between(start, end);
 		System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
+		size--;
 		return element;
 		
 	}
