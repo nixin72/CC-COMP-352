@@ -128,7 +128,7 @@ public class MyHashTable_Test {
 	@org.junit.Test
 	public void Test_LinearProbing() {
 		class Test {	
-			MyHashTable mht;
+			MyHashTable_LinearProbing mht;
 			
 			public void testPut() {
 				mht = new MyHashTable_LinearProbing(10);
@@ -139,7 +139,7 @@ public class MyHashTable_Test {
 				assertEq(expected, actual, "Test_LinearProbing: Put first element into hash table.");
 				testSizeChecks(1, false, false);
 				
-				expected = actual;
+				expected = new Element(0, "test");
 				actual = mht.put(0, "override element");
 				assertEq(expected, actual, "Test_LinearProbing: Override first element in the hash table.");
 				testSizeChecks(1, false, false);
@@ -147,26 +147,29 @@ public class MyHashTable_Test {
 				expected = null;
 				actual = mht.put(1, "new elment");
 				assertEq(expected, actual, "Test_LinearProbing: Add a second element to the hash table.");
+				testSizeChecks(2, false, false);
 				
 				expected = null;
 				actual = mht.put(2, "another new element");
 				assertEq(expected, actual, "Test_LinearProbing: add another element to the hash table.");
+				testSizeChecks(3, false, false);
 				
-				expected = null;
+				expected = new Element(2, "another new element");
 				actual = mht.put(2, "Overriding key 2");
 				assertEq(expected, actual, "Test_LinearProbing: overriding the key 2 in the hash table.");
+				testSizeChecks(3, false, false);
 			}
 			
 			public void testGet() {
 				Element expected = new Element(0, "override element");
 				Element actual = mht.get(0);
 				assertEq(expected, actual, "Test_LinearProbing: getting the first element in the hash table.");
-				testSizeChecks(1, false, false);
+				testSizeChecks(3, false, false);
 				
 				expected = new Element(1, "new elment");
 				actual = mht.get(1);
 				assertEq(expected, actual, "Test_LinearProbing: getting the second element in the hash table.");
-				testSizeChecks(2, false, false);
+				testSizeChecks(3, false, false);
 				
 				expected = new Element(2, "Overriding key 2");
 				actual = mht.get(2);
@@ -174,8 +177,8 @@ public class MyHashTable_Test {
 				testSizeChecks(3, false, false);
 				
 				try {
+					expected = null;
 					actual = mht.get(3);
-					expected = new Element(3, "Overriding key 2");
 					assertEq(expected, actual, "Test_LinearProbing: getting the third element in the hash table.");
 				}
 				catch (IndexOutOfBoundsException e) {
@@ -208,7 +211,7 @@ public class MyHashTable_Test {
 				
 				try {
 					actual = mht.remove(3);
-					expected = new Element(3, "Overriding key 2");
+					expected = null;
 					assertEq(expected, actual, "Test_LinearProbing: getting the third element in the hash table.");
 				}
 				catch (IndexOutOfBoundsException e) {

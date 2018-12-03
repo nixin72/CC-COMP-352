@@ -2,6 +2,7 @@ package a4_40082638_40042586;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MyHashTable_QuadradicProbing extends MyHashTable {	
@@ -178,16 +179,56 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 	}
 
 	public static void main(String[] args) {
-		MyHashTable_LinearProbing map = new MyHashTable_LinearProbing();
-		for (int i = 0 ; i < 100 ; i++) {
-			Element a = new Element("");
-			map.put(a.getKey(), "JOB" + i);
-		}
+		MyHashTable_QuadradicProbing map = new MyHashTable_QuadradicProbing(100);
 		System.out.println(map.toString());
+		ArrayList<Element> values = new ArrayList<Element>();
+		
+		for (int i = 0; i < 50; i++) {
+			Element a = new Element("RANDOM");
+			values.add(a);
+		}
+		
+		System.out.println("PUTTING VALUES IN HASHMAP");
+		
+		for (int i = 0 ; i < 50 ; i++) {	
+			System.out.println(map.put(values.get(i).getKey(),"JOB"+i));
+		}
+		
+		System.out.println(map.toString());
+		System.out.println("GETTING VALUES FROM HASHMAP");
 		
 		for (int i = 0 ; i < 50 ; i++) {
-			System.out.println(map.remove(i));
+			System.out.println(map.get(values.get(i).getKey()));
 		}
+		
 		System.out.println(map.toString());
+		System.out.println("REMOVING VALUES FROM HASHMAP");
+		
+		for (int i = 0 ; i < 25 ; i++) {
+			System.out.println(map.remove(values.get(i).getKey()));
+		}
+		
+		System.out.println(map.toString());
+		System.out.println("GETTING VALUES FROM HASHMAP");
+		
+		for (int i = 0 ; i < 50 ; i++) {
+			System.out.println(map.get(values.get(i).getKey()));
+		}
+		
+		System.out.println(map.toString());
+		System.out.println("/////////////////////////////////////////////////////////////////////////////////////////////");
+        
+		int[] number = {50, 75, 75, 100, 150};
+		
+		for (int g = 0 ; g < 5 ; g++) {
+			MyHashTable_QuadradicProbing map1 = new MyHashTable_QuadradicProbing(number[g]);
+			System.out.println("PUTTING VALUES IN HASHMAP FOR VALUE: " + number[g]);
+			
+			for (int i = 0 ; i < 150 ; i++) {
+				System.out.println(map1.put(new Element("").getKey(),""));
+			}
+			
+			System.out.println(map1.toString());
+		}
 	}
 }
