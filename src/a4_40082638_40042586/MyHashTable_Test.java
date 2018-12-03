@@ -15,7 +15,7 @@ public class MyHashTable_Test {
 		test.testHashCode();
 	}
 	
-//	@org.junit.Test
+	@org.junit.Test
 	public void Test_SeperateChaining() {
 		class Test {
 			MyHashTable mht;

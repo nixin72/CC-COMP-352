@@ -76,17 +76,17 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 				return replaced;
 			}
 		}
-		catch(CollisionException e) {
+		catch (CollisionException e) {
 			element = new Element(key,value);
 			hashCode = element.hashCode();
 			
-			while(hasCollision(compress(hashCode))) {
+			while (hasCollision(compress(hashCode))) {
 				probez++;
 				probingattempts++;
 				hashCode = (int) Math.pow(probez, 2);
 			}
 		}
-		catch(NullPointerException e) {
+		catch (NullPointerException e) {
 			element = new Element(key,value);
 			hashCode = element.hashCode();
 			elements[compress(hashCode)] = element;
@@ -133,7 +133,7 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 				return element;
 			}
 		}
-		catch(CollisionException e) {
+		catch (CollisionException e) {
 			hashCode = new Element(key, null).hashCode();
 			while (hasCollision(compress(hashCode))) {
 				if (key == elements[compress(hashCode)].getKey()) {
@@ -144,7 +144,7 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 				hashCode = (int) Math.pow(probez, 2);
 			}
 		}
-		catch(NullPointerException e) {
+		catch (NullPointerException e) {
 			return null;
 		}
 		
@@ -156,7 +156,7 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 			elements[compress(hashCode)].setValue(null);
 			size--;
 		}
-		catch(NullPointerException e) {
+		catch (NullPointerException e) {
 			return null;
 		}          
 		
@@ -165,7 +165,6 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 		System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
 		size--;
 		return element;
-		
 	}
 	
 	@Override
@@ -179,7 +178,7 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 	}
 	
 	protected Element findElement(Integer key) {
-        return elements[compress(new Element(key,"").hashCode())];
+        return elements[compress(new Element(key, "").hashCode())];
 	}
 	
 	
@@ -195,13 +194,13 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 
 	public static void main(String[] args) {
 		MyHashTable_LinearProbing map = new MyHashTable_LinearProbing();
-		for(int i = 0; i < 100; i++) {
+		for (int i = 0 ; i < 100 ; i++) {
 			Element a = new Element("");
-			map.put(a.getKey(),"JOB"+i);
+			map.put(a.getKey(), "JOB" + i);
 		}
 		System.out.println(map.toString());
 		
-		for(int i = 0; i<50; i++) {
+		for (int i = 0 ; i < 50 ; i++) {
 			System.out.println(map.remove(i));
 		}
 		System.out.println(map.toString());
