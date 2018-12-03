@@ -1,5 +1,30 @@
 package a4_40082638_40042586;
 
+/*
+ * Class Name: __MyHashTable__
+ * 
+ * # size: int
+ * # capacity: int
+ * # loadfactor: double
+ * #* INITIAL_CAPACITY: int 
+ * 
+ * <<constructor>> + MyHashTable()
+ * <<constructor>> + MyHashTable(capacity : int)
+ * + getSize() : int
+ * + getCapacity() : int
+ * + getLoadFactor() : int
+ * + setSize(size : int): void
+ * + setCapacity(capacity : int) : void
+ * + setLoadFactor(loadFactor : int) : void
+ * + isEmpty() : boolean
+ * # nextPrimt(input : int) : int
+ * __# compress(hashcode : int) : int__
+ * __# hasCollision(index : int) : boolean__
+ * __+ get(index : int) : Element__
+ * __+ put(key : int, value : String) : Element__
+ * __+ remove(key : int) : Element__
+ * 
+ */
 public abstract class MyHashTable {
 	protected int size;
 	protected int capacity;
@@ -22,12 +47,16 @@ public abstract class MyHashTable {
 		return size;
 	}
 	
-	public void setSize(int size) {
-		this.size = size;
+	public int getCapacity() {
+		return capacity;
 	}
 	
 	public double getLoadFactor() {
 		return loadfactor;
+	}
+	
+	public void setSize(int size) {
+		this.size = size;
 	}
 	
 	public void setLoadFactor(double newloadfactor) {
@@ -37,11 +66,6 @@ public abstract class MyHashTable {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-	
-	public int getCapacity() {
-		return capacity;
-	}
-
 	
 	public boolean isEmpty() {
 		return size == 0;
@@ -65,7 +89,6 @@ public abstract class MyHashTable {
 			}
 		}
 	}
-	
 	
 	protected abstract int compress(int hashcode);
 	protected abstract boolean hasCollision(int index);

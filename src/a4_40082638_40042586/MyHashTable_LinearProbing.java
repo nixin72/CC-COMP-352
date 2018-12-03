@@ -4,6 +4,27 @@ package a4_40082638_40042586;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/*
+ * Class Name: MyHashTable_LinearProbing
+ * Extends: __MyHashTable__
+ * 
+ * - probingattempts : int
+ * - elements[] ArrayList<Element>
+ * 
+ * <<constructor>> + MyHashTable_LinearProbing()
+ * <<constructor>> + MyHashTable_LinearProbing(capacity : int)
+ * # findElement(key : Integer) : Element
+ * + resize(newcap : int) : void
+ * + get(index : int) : Element
+ * + put(key : int, value : String) : Element
+ * + remove(key : int) : Element
+ * # hasCollision(index : int) : boolean
+ * # compress(hashcode : int) : int
+ * + toString() : String
+ * # printInfo(collision : int, probingattempt : int) : void
+ * +* main(args[] : String) : void
+ * 
+ */
 public class MyHashTable_LinearProbing extends MyHashTable {
 	private int probingattempts = 0;
 	private Element[] elements;
@@ -20,11 +41,27 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		setLoadFactor(0.5);
 	}
  
-
+	/*
+	 * Input: Integer
+	 * 
+	 * Purpose: 
+	 * 	Find the element at the given index, handing the given type of probing used. 
+	 * 
+	 * Output: Element
+	 * 
+	 * */
 	protected Element findElement(Integer key) {
         return elements[compress(new Element(key,"").hashCode())];
 	}
 	
+	/*
+	 * Input: int 
+	 * 
+	 * Purpose: 
+	 * 	Resize the underlying array to be able to handle more elements. 
+	 * 
+	 * Output: Void
+	 * */
 	public void resize(int newcap) {
 		Element[] temp = new Element[newcap];
 		
@@ -43,6 +80,14 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		capacity = newcap;
 	}
 
+	/*
+	 * Input: int
+	 * 
+	 * Purpose: 
+	 * 	Public facing method to access the element with a certain key in the hash table.
+	 * 
+	 * Output: Element
+	 * */
 	@Override
 	public Element get(int key) {
 		long startTime = System.nanoTime();
@@ -86,6 +131,16 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		return element;
 	}
 	
+	/*
+	 * Input: int, String
+	 * 
+	 * Purpose:
+	 * 	Insert a key/value pair into the hash table, handing collisions using 
+	 * 	the Quadratic probing method. 
+	 * 
+	 * Output: Element
+	 * 
+	 * */
 	@Override
 	public Element put(int key, String value) {
 		long startTime = System.nanoTime();
@@ -144,6 +199,16 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		return replaced;
 	}
 
+	/*
+	 * Input: int
+	 * 
+	 * Purpose:
+	 * 	Remove the element with the given key from the hash table. 
+	 * 	Uses quadratic probing to find the element to remove. 
+	 * 
+	 * Output: Element
+	 * 
+	 * */
 	@Override
 	public Element remove(int key) {
 		long startTime = System.nanoTime();
@@ -196,6 +261,16 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		return element;
 	}
 
+	/*
+	 * Input: int
+	 * 
+	 * Purpose:
+	 * 	Determine if there's already an element at the given index in the 
+	 * 	underlying array. 
+	 *  
+	 * Output: boolean
+	 * 
+	 * */
 	@Override
 	protected boolean hasCollision(int index) {
 		try {
@@ -206,11 +281,29 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		}
 	}
 	
+	/*
+	 * Input: int
+	 * 
+	 * Purpose: 
+	 * 	Convert the given hashcode into a smaller value within the indexes of the array.  
+	 *  
+	 * Output: int  
+	 * 
+	 * */
 	@Override
 	protected int compress(int hashcode) {
 		return (hashcode & 0x7fffffff) % capacity;
 	}
 	
+	/*
+	 * Input: N/A
+	 * 
+	 * Purpose: 
+	 * 	Return the string value of the contents of the array. 
+	 * 
+	 * Output: String
+	 * 
+	 * */
 	@Override
 	public String toString() {
 		return Arrays.toString(elements);
@@ -223,6 +316,16 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 		System.out.println("Probing attempts for put: " + probingattempt);
 	}
 
+	/*
+	 * Input: String[]
+	 * 
+	 * Purpose: 
+	 * 	Run some basic tests on the methods in the class to make sure that the 
+	 * 	hash table can be used properly.
+	 * 
+	 * Output: void
+	 * 
+	 * */
 	public static void main(String[] args) {
 		MyHashTable_LinearProbing map = new MyHashTable_LinearProbing(100);
 		System.out.println(map.toString());

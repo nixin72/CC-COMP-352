@@ -5,8 +5,26 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/*
+ * Class Name: MyHashTable_SeperateChaining
+ * Extends: __MyHashTable__
+ * 
+ * - elements[] ArrayList<Element>
+ * 
+ * <<constructor>> + MyHashTable_SeperateChaining()
+ * <<constructor>> + MyHashTable_SeperateChaining(capacity : int)
+ * + resize(newcap : int) : void
+ * + get(index : int) : Element
+ * + put(key : int, value : String) : Element
+ * + remove(key : int) : Element
+ * # hasCollision(index : int) : boolean
+ * # findElement(key : Integer) : Element
+ * # compress(hashcode : int) : int
+ * + toString() : String
+ * +* main(args[] : String) : void
+ * 
+ */
 public class MyHashTable_SeperateChaining extends MyHashTable {
-	
 	private ArrayList<Element> elements[];
 	
 	@SuppressWarnings("unchecked")
@@ -23,8 +41,14 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		setLoadFactor(0.5);
 	}
 
-	
-	
+	/*
+	 * Input: int 
+	 * 
+	 * Purpose: 
+	 * 	Resize the underlying array to be able to handle more elements. 
+	 * 
+	 * Output: Void
+	 * */
 	@SuppressWarnings("unchecked")
 	public void resize(int newcap) {
 		ArrayList<Element> newelem[] = (ArrayList<Element>[])new ArrayList[newcap];
@@ -36,13 +60,29 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		capacity = newcap;
 	}
 	
-
+	/*
+	 * Input: int
+	 * 
+	 * Purpose: 
+	 * 	Public facing method to access the element with a certain key in the hash table.
+	 * 
+	 * Output: Element
+	 * */
 	@Override
 	public Element get(int key) {
 		return findElement(key);
 	}
 	
-
+	/*
+	 * Input: int, String
+	 * 
+	 * Purpose:
+	 * 	Insert a key/value pair into the hash table, handing collisions using 
+	 * 	the Quadratic probing method. 
+	 * 
+	 * Output: Element
+	 * 
+	 * */
 	@Override
 	public Element put(int key, String value) {
 		Instant start = Instant.now();
@@ -109,6 +149,16 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		return replaced;
 	}
 
+	/*
+	 * Input: int
+	 * 
+	 * Purpose:
+	 * 	Remove the element with the given key from the hash table. 
+	 * 	Uses quadratic probing to find the element to remove. 
+	 * 
+	 * Output: Element
+	 * 
+	 * */
 	@Override
 	public Element remove(int key) {
 		Instant start = Instant.now();
@@ -163,6 +213,16 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		return element;
 	}
 	
+	/*
+	 * Input: int
+	 * 
+	 * Purpose:
+	 * 	Determine if there's already an element at the given index in the 
+	 * 	underlying array. 
+	 *  
+	 * Output: boolean
+	 * 
+	 * */
 	@Override
 	protected boolean hasCollision(int index) {
 		try {
@@ -176,6 +236,15 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		}
 	}
 	
+	/*
+	 * Input: Integer
+	 * 
+	 * Purpose: 
+	 * 	Find the element at the given index, handing the given type of probing used. 
+	 * 
+	 * Output: Element
+	 * 
+	 * */
 	protected Element findElement(Integer key) {
 		ArrayList<Element> elems = elements[compress(new Element(key, "").hashCode())];
 		Element output = null;
@@ -188,17 +257,44 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		return output;
 	}
 	
-	
+	/*
+	 * Input: int
+	 * 
+	 * Purpose: 
+	 * 	Convert the given hashcode into a smaller value within the indexes of the array.  
+	 *  
+	 * Output: int  
+	 * 
+	 * */
 	@Override
 	protected int compress(int hashcode) {
 		return (hashcode & 0x7fffffff) % capacity;
 	}
 	
+	/*
+	 * Input: N/A
+	 * 
+	 * Purpose: 
+	 * 	Return the string value of the contents of the array. 
+	 * 
+	 * Output: String
+	 * 
+	 * */
 	@Override
 	public String toString() {
 		return Arrays.toString(elements);
 	}
 
+	/*
+	 * Input: String[]
+	 * 
+	 * Purpose: 
+	 * 	Run some basic tests on the methods in the class to make sure that the 
+	 * 	hash table can be used properly.
+	 * 
+	 * Output: void
+	 * 
+	 * */
 	public static void main(String[] args) {
 		MyHashTable_SeperateChaining map = new MyHashTable_SeperateChaining(100);
 		System.out.println(map.toString());
