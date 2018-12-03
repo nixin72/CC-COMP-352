@@ -4,10 +4,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class MyHashTable_SeperateChaining extends MyHashTable {
-	private int probingattempts = 0;
 	
 	private ArrayList<Element> elements[];
 	
@@ -76,7 +74,6 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 			
 			while (hasCollision(compress(hashCode))) {
 				probez++;
-				probingattempts++;
 				hashCode = (int) Math.pow(probez, 2);
 			}
 		}
@@ -84,11 +81,11 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 			element = new Element(key,value);
 			hashCode = element.hashCode();
 			try {
-				elements[compress(hashCode)].set(key, element);
+				elements[compress(hashCode)].add(element);
 			}
 			catch (NullPointerException err) {
 				elements[compress(hashCode)] = new ArrayList<Element>();
-				elements[compress(hashCode)].set(key, element);
+				elements[compress(hashCode)].add(element);
 			}
 		}
 		
@@ -96,7 +93,7 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		Instant end = Instant.now();
 		Duration timeElapsed = Duration.between(start, end);
 		element = new Element(key,value);
-		elements[compress(hashCode)].set(key, element);
+		elements[compress(hashCode)].add(element);
 		
 		if ((double) size/capacity >= loadfactor) {
 			resize(nextPrime(capacity*2));
@@ -136,11 +133,10 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		catch (CollisionException e) {
 			hashCode = new Element(key, null).hashCode();
 			while (hasCollision(compress(hashCode))) {
-				if (key == elements[compress(hashCode)].get(key).getKey()) {
+				if (key == findElement(key).getKey()) {
 					break;
 				}
 				probez++;
-				probingattempts++;
 				hashCode = (int) Math.pow(probez, 2);
 			}
 		}
@@ -150,10 +146,10 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		
 		
 		try {
-			element = new Element(elements[compress(hashCode)].get(key));
-			elements[compress(hashCode)].get(key).setAvailable(true);
-			elements[compress(hashCode)].get(key).setKey(null);
-			elements[compress(hashCode)].get(key).setValue(null);
+			element = new Element(findElement(key));
+			findElement(key).setAvailable(true);
+			findElement(key).setKey(null);
+			findElement(key).setValue(null);
 			size--;
 		}
 		catch (NullPointerException e) {
@@ -181,7 +177,15 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 	}
 	
 	protected Element findElement(Integer key) {
-        return elements[compress(new Element(key, "").hashCode())].get(key);
+		ArrayList<Element> elems = elements[compress(new Element(key, "").hashCode())];
+		Element output = null;
+		for (Element elem : elems) {
+			if (elem.getKey() == key) {
+				output = elem;
+			}
+		}
+		
+		return output;
 	}
 	
 	

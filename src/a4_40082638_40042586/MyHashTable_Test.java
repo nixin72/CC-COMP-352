@@ -29,7 +29,7 @@ public class MyHashTable_Test {
 				assertEq(expected, actual, "Separate Chaining: Put first element into hash table.");
 				testSizeChecks(1, false, false);
 				
-				expected = actual;
+				expected = new Element(0, "test");
 				actual = mht.put(0, "override element");
 				assertEq(expected, actual, "Separate Chaining: Override first element in the hash table.");
 				testSizeChecks(1, false, false);
@@ -42,7 +42,7 @@ public class MyHashTable_Test {
 				actual = mht.put(2, "another new element");
 				assertEq(expected, actual, "Separate Chaining: add another element to the hash table.");
 				
-				expected = null;
+				expected = new Element(2, "another new element");
 				actual = mht.put(2, "Overriding key 2");
 				assertEq(expected, actual, "Separate Chaining: overriding the key 2 in the hash table.");
 			}
@@ -51,12 +51,12 @@ public class MyHashTable_Test {
 				Element expected = new Element(0, "override element");
 				Element actual = mht.get(0);
 				assertEq(expected, actual, "Separate Chaining: getting the first element in the hash table.");
-				testSizeChecks(1, false, false);
+				testSizeChecks(3, false, false);
 				
 				expected = new Element(1, "new elment");
 				actual = mht.get(1);
 				assertEq(expected, actual, "Separate Chaining: getting the second element in the hash table.");
-				testSizeChecks(2, false, false);
+				testSizeChecks(3, false, false);
 				
 				expected = new Element(2, "Overriding key 2");
 				actual = mht.get(2);
@@ -65,10 +65,10 @@ public class MyHashTable_Test {
 				
 				try {
 					actual = mht.get(3);
-					expected = new Element(3, "Overriding key 2");
+					expected = null;
 					assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
 				}
-				catch (IndexOutOfBoundsException e) {
+				catch (NullPointerException e) {
 					assertEq(
 							new Element(-1, "IndexOutOfBoundsException"), 
 							new Element(-1, "IndexOutOfBoundsException"), 
@@ -98,8 +98,8 @@ public class MyHashTable_Test {
 				
 				try {
 					actual = mht.remove(3);
-					expected = new Element(3, "Overriding key 2");
-					assertEq(expected, actual, "Separate Chaining: getting the third element in the hash table.");
+					expected = null;
+					assertEq(expected, actual, "Separate Chaining: removing the third element in the hash table.");
 				}
 				catch (IndexOutOfBoundsException e) {
 					assertEq(
@@ -125,7 +125,7 @@ public class MyHashTable_Test {
 		test.testRemove();
 	}
 	
-//	@org.junit.Test
+	@org.junit.Test
 	public void Test_LinearProbing() {
 		class Test {	
 			MyHashTable mht;

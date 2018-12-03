@@ -3,11 +3,8 @@ package a4_40082638_40042586;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Random;
 
-public class MyHashTable_QuadradicProbing extends MyHashTable {
-	private int probingattempts = 0;
-	
+public class MyHashTable_QuadradicProbing extends MyHashTable {	
 	private Element[] elements;
 	
 	public MyHashTable_QuadradicProbing() {
@@ -72,7 +69,6 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 			
 			while (hasCollision(compress(hashCode))) {
 				probez++;
-				probingattempts++;
 				hashCode = (int) Math.pow(probez, 2);
 			}
 		}
@@ -130,7 +126,6 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 					break;
 				}
 				probez++;
-				probingattempts++;
 				hashCode = (int) Math.pow(probez, 2);
 			}
 		}

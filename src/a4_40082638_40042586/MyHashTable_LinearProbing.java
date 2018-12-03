@@ -3,8 +3,6 @@ package a4_40082638_40042586;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.time.Duration;
-import java.time.Instant;
 
 public class MyHashTable_LinearProbing extends MyHashTable {
 	private int probingattempts = 0;
