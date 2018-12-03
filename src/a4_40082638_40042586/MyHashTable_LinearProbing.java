@@ -1,13 +1,12 @@
 
 package a4_40082638_40042586;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Random;
 
 public class MyHashTable_LinearProbing extends MyHashTable {
-	private int p,b,c;
 	private int probingattempts = 0;
 	
 	private Element[] elements;
@@ -15,160 +14,184 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 	public MyHashTable_LinearProbing() {
 		super();
 		elements = new Element[getCapacity()];
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
 		setLoadFactor(0.5);
 	}
 	
 	public MyHashTable_LinearProbing(int capacity) {
 		super(capacity);
 		elements = new Element[capacity];
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
 		setLoadFactor(0.5);
 	}
+ 
 
-	
 	protected Element findElement(Integer key) {
         return elements[compress(new Element(key,"").hashCode())];
-	}
+		}
 	
 	public void resize(int newcap) {
-		Element[] newelem = new Element[newcap];
-		for (int i = 0 ; i < capacity ; i++) {
-			newelem[i]=elements[i];
+	Element[] temp = new Element[newcap];
+	for(int i = 0; i<capacity;i++) {
+		temp[i]=elements[i];
+	}
+	elements = new Element[newcap];
+	for(int i = 0; i<newcap;i++) {
+		if(temp[i]!=null) {
+			put(
+					temp[i].getKey(),
+					temp[i].getValue());
 		}
-		
-		elements = newelem;
-		capacity = newcap;
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
+	}
+	
+	capacity = newcap;
 	}
 	
 
 	@Override
 	public Element get(int key) {
-		return findElement(key);
-	}
-	
-
-	@Override
-	public Element put(int key, String value) {
-		Instant start = Instant.now();
-		Element element;
-        int probez = 0;
-        int hashCode;
-        
+		long startTime = System.nanoTime();
+		Element element = new Element(key,"");
+        int hashCode = element.hashCode();
 		try {
-			if (findElement(key).getKey() != key) {
+			if(elements[compress(hashCode)].getKey()!=key) {
 				throw new CollisionException();
 			}
 			else {
-				findElement(key).setValue(value);
-				Instant end = Instant.now();
-				Duration timeElapsed = Duration.between(start, end);
-				System.out.println("capacity of the table:" + capacity);
-				System.out.println("Size of the table:" + size);
-				System.out.println("Probing attempts:" + probez);
-				System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
-				
-				return findElement(key);
-			}
-		}
-		catch(CollisionException e) {
-			element = new Element(key,value);
-			hashCode = element.hashCode();
-			
-			while(hasCollision(compress(hashCode))) {
-				probez++;
-				probingattempts++;
-				hashCode++;
+			size--;
+			element = new Element(elements[compress(hashCode)]);
+			long endTime   = System.nanoTime();
+			long totalTime = endTime - startTime;
+			System.out.println("Time in nanoseconds:"+totalTime);
+			return element;
 			}
 		}
 		catch(NullPointerException e) {
-			element = new Element(key,value);
-			hashCode = element.hashCode();
-			elements[compress(hashCode)] = element;
-		}
-		
-		size++;
-		Instant end = Instant.now();
-		Duration timeElapsed = Duration.between(start, end);
-		element = new Element(key,value);
-		elements[compress(hashCode)] = element;
-		
-		if ((double) size/capacity >= loadfactor) {
-			resize(nextPrime(capacity*2));
-		}
-		
-		System.out.println(start);
-		System.out.println(end);
-		System.out.println("capacity of the table:" + capacity);
-		System.out.println("Size of the table:" + size);
-		System.out.println("Probing attempts:" + probez);
-		System.out.println("Time taken: " + timeElapsed.toNanos() + " nanoseconds");
-		
-		return element;
-	}
-
-	@Override
-	public Element remove(int key) {
-		Instant start = Instant.now();
-        Element element;
-        int hashCode;
-		try {
-			element = new Element(findElement(key));
-			
-			if (findElement(key).getKey()!=key) {
-				throw new CollisionException();
-			}
-			else {				
-				findElement(key).setValue(null);
-				findElement(key).setKey(null);
-				findElement(key).setAvailable(true);
-				return element;
-			}
+			long endTime   = System.nanoTime();
+			long totalTime = endTime - startTime;
+			System.out.println("Time in nanoseconds:"+totalTime);
+			return null;
 		}
 		catch(CollisionException e) {
-			hashCode = new Element(key, null).hashCode();
-			while (hasCollision(compress(hashCode))) {
-				if (key == elements[compress(hashCode)].getKey()) {
+			while(hasCollision(compress(hashCode))) {
+				if(elements[compress(hashCode)].getKey()==key) {
+					element = new Element(elements[compress(hashCode)]);
 					break;
 				}
 				probingattempts++;
 				hashCode++;
 			}
 		}
-		catch(NullPointerException e) {
-			return null;
-		}
-		
-		
-		try {
-			element = new Element(elements[compress(hashCode)]);
-			elements[compress(hashCode)].setAvailable(true);
-			elements[compress(hashCode)].setKey(null);
-			elements[compress(hashCode)].setValue(null);
-			size--;
-		}
-		catch(NullPointerException e) {
-			return null;
-		}          
-		
-		Instant end = Instant.now();
-		Duration timeElapsed = Duration.between(start, end);
-		System.out.println("Time taken: "+ timeElapsed.toNanos() +" nanoseconds");
+		long endTime   = System.nanoTime();
+		long totalTime = endTime - startTime;
+		System.out.println("Time in nanoseconds:"+totalTime);
 		return element;
-		
 	}
+	
+   
+	@Override
+	public Element put(int key, String value) {
+		long startTime = System.nanoTime();
+		int collision = 0;
+		int probes = 0;
+		if((double) size/capacity>=loadfactor) {
+			resize(nextPrime(capacity*2));
+		}
+        Element element = new Element(key,value);
+        int hashCode = element.hashCode();
+		try {
+			if(elements[compress(hashCode)].getKey()!=key) {
+				throw new CollisionException();
+			}
+			else {
+			size++;
+			elements[compress(hashCode)].setValue(value);
+			elements[compress(hashCode)].setAvailable(false);
+			long endTime   = System.nanoTime();
+			long totalTime = endTime - startTime;
+			System.out.println("Time in nanoseconds:"+totalTime);
+			printInfo(collision,probes);
+			return elements[compress(hashCode)];
+			}
+		}
+		catch(NullPointerException e) {
+			elements[compress(hashCode)] = element;
+			size++;
+			long endTime   = System.nanoTime();
+			long totalTime = endTime - startTime;
+			System.out.println("Time in nanoseconds:"+totalTime);
+			printInfo(collision,probes);
+			return element;
+		}
+		catch(CollisionException e) {
+			while(hasCollision(compress(hashCode))) {
+				probes++;
+				collision++;
+				probingattempts++;
+				hashCode++;
+			}
+		}
+		size++;
+		printInfo(collision,probes);
+		elements[compress(hashCode)] = element;
+		long endTime   = System.nanoTime();
+		long totalTime = endTime - startTime;
+		System.out.println("Time in nanoseconds:"+totalTime);
+		return element;
+	}
+
+	@Override
+	public Element remove(int key) {
+		long startTime = System.nanoTime();
+		Element element = new Element(key,"");
+        int hashCode = element.hashCode();
+		try {
+			if(elements[compress(hashCode)].getKey()!=key) {
+				throw new CollisionException();
+			}
+			else {
+			size--;
+			element = new Element(elements[compress(hashCode)]);
+			elements[compress(hashCode)].setValue(null);
+			elements[compress(hashCode)].setKey(null);
+			elements[compress(hashCode)].setAvailable(true);
+			long endTime   = System.nanoTime();
+			long totalTime = endTime - startTime;
+			System.out.println("Time in nanoseconds:"+totalTime);
+			return element;
+			}
+		}
+		catch(NullPointerException e) {
+			long endTime   = System.nanoTime();
+			long totalTime = endTime - startTime;
+			System.out.println("Time in nanoseconds:"+totalTime);
+			return null;
+		}
+		catch(CollisionException e) {
+			while(hasCollision(compress(hashCode))) {
+				if(elements[compress(hashCode)].getKey()==key) {
+					element = new Element(elements[compress(hashCode)]);
+					elements[compress(hashCode)].setKey(null);
+					elements[compress(hashCode)].setValue(null);
+					elements[compress(hashCode)].setAvailable(true);
+					size--;
+					break;
+				}
+				probingattempts++;
+				hashCode++;
+			}
+		}
+		long endTime   = System.nanoTime();
+		long totalTime = endTime - startTime;
+		System.out.println("Time in nanoseconds:"+totalTime);
+		return element;
+	}
+
+		
+	
 	
 	@Override
 	protected boolean hasCollision(int index) {
 		try {
-			return elements[index].available == false;
+		return elements[index].available==false;
 		}
 		catch (NullPointerException e) {
 			return false;
@@ -177,25 +200,75 @@ public class MyHashTable_LinearProbing extends MyHashTable {
 	
 	@Override
 	protected int compress(int hashcode) {
-		return (hashcode & 0x7fffffff) % capacity;
+
+		return (hashcode & 0x7fffffff)%capacity;
 	}
 	
 	@Override
 	public String toString() {
 		return Arrays.toString(elements);
 	}
+	
+	protected void printInfo(int collision,int probingattempt) {
+		System.out.println("Probing attempts for map: " + probingattempts);
+		System.out.println("Size: " + size);
+		System.out.println("Collisions: " + collision);
+		System.out.println("Probing attempts for put: " + probingattempt);
+	}
 
 	public static void main(String[] args) {
-		MyHashTable_LinearProbing map = new MyHashTable_LinearProbing();
-		for(int i = 0; i < 100; i++) {
-			Element a = new Element("");
-			map.put(a.getKey(),"JOB"+i);
+		MyHashTable_LinearProbing map = new MyHashTable_LinearProbing(100);
+		System.out.println(map.toString());
+		ArrayList<Element> values = new ArrayList<Element>();
+		for(int i = 0; i < 50; i++) {
+			Element a = new Element("RANDOM");
+			values.add(a);
+			
+		}
+		System.out.println("PUTTING VALUES IN HASHMAP");
+		for(int i = 0; i < 50; i++) {
+			
+			System.out.println(map.put(values.get(i).getKey(),"JOB"+i));
+			
 		}
 		System.out.println(map.toString());
+		System.out.println("GETTING VALUES FROM HASHMAP");
+		for(int i = 0; i < 50; i++) {
+			
+			System.out.println(map.get(values.get(i).getKey()));
+			
+		}
+		System.out.println(map.toString());
+		System.out.println("REMOVING VALUES FROM HASHMAP");
+		for(int i = 0; i < 25; i++) {
+			
+			System.out.println(map.remove(values.get(i).getKey()));
+			
+		}
+		System.out.println(map.toString());
+		System.out.println("GETTING VALUES FROM HASHMAP");
+		for(int i = 0; i < 50; i++) {
+			
+			System.out.println(map.get(values.get(i).getKey()));
+			
+		}
+		System.out.println(map.toString());
+		System.out.println("/////////////////////////////////////////////////////////////////////////////////////////////");
+        
+		int[] number = {50,75,75,100,150};
+		for (int g=0;g<5;g++) {
+			
+		MyHashTable_LinearProbing map1 = new MyHashTable_LinearProbing(number[g]);
+		System.out.println("PUTTING VALUES IN HASHMAP FOR VALUE: " + number[g]);
+		for(int i = 0; i < 150; i++) {
+			
+		System.out.println(map1.put(new Element("").getKey(),""));
+
 		
-		for(int i = 0; i<50; i++) {
-			System.out.println(map.remove(i));
+			
 		}
-		System.out.println(map.toString());
+		System.out.println(map1.toString());}
+		
+
 	}
 }

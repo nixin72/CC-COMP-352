@@ -20,9 +20,8 @@ public class Element {
 	}
 
 	public Element(String value) {
-		// Constructor that sets a new pair with a random Integer key
 		Random rand = new Random();
-		this.key = rand.nextInt(100) + 1;
+		this.key = rand.nextInt(50);
 		this.value = value;
 		this.available = false;
 	}
@@ -59,13 +58,7 @@ public class Element {
 
 	@Override
 	public int hashCode() {
-        int hash = 0;
-        int keyval = key;
-        int number = 33;
-        for (int i = 0; i<16;i++) {
-        	hash = (int) (hash + ((keyval >> i) & 1) + hash*number);
-        }
-        return hash;
+        return key;
     }
 
 	@Override

@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class MyHashTable_QuadradicProbing extends MyHashTable {
-	private int p,b,c;
 	private int probingattempts = 0;
 	
 	private Element[] elements;
@@ -14,18 +13,12 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 	public MyHashTable_QuadradicProbing() {
 		super();
 		elements = new Element[getCapacity()];
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
 		setLoadFactor(0.5);
 	}
 	
 	public MyHashTable_QuadradicProbing(int capacity) {
 		super(capacity);
 		elements = new Element[capacity];
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
 		setLoadFactor(0.5);
 	}
 
@@ -39,9 +32,6 @@ public class MyHashTable_QuadradicProbing extends MyHashTable {
 		
 		elements = newelem;
 		capacity = newcap;
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
 	}
 	
 

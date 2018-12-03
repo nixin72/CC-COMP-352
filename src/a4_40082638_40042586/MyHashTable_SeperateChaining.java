@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class MyHashTable_SeperateChaining extends MyHashTable {
-	private int p,b,c;
 	private int probingattempts = 0;
 	
 	private ArrayList<Element> elements[];
@@ -16,9 +15,6 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 	public MyHashTable_SeperateChaining() {
 		super();
 		elements = (ArrayList<Element>[])new ArrayList[getCapacity()];
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
 		setLoadFactor(0.5);
 	}
 	
@@ -26,9 +22,6 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 	public MyHashTable_SeperateChaining(int capacity) {
 		super(capacity);
 		elements = (ArrayList<Element>[])new ArrayList[capacity];
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
 		setLoadFactor(0.5);
 	}
 
@@ -43,9 +36,6 @@ public class MyHashTable_SeperateChaining extends MyHashTable {
 		
 		elements = newelem;
 		capacity = newcap;
-		p = nextPrime(capacity);
-		b = new Random().nextInt(capacity-1);
-		c = new Random().nextInt(capacity-2)+1;
 	}
 	
 
