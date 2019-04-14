@@ -1,0 +1,14 @@
+Time to execute MultiRecursiveOddonacci: 15012
+Time to execute LinearRecursiveOddonacci: 423111
+Time to execute MultiRecursiveOddonacci: 3652743
+Time to execute LinearRecursiveOddonacci: 332642
+Time to execute MultiRecursiveOddonacci: 50002588
+Time to execute LinearRecursiveOddonacci: 305778
+Time to execute MultiRecursiveOddonacci: 957816478
+Time to execute LinearRecursiveOddonacci: 338963
+Time to execute MultiRecursiveOddonacci: 959514058
+Time to execute LinearRecursiveOddonacci: 342124
+Time to execute MultiRecursiveOddonacci: 972415594
+Time to execute LinearRecursiveOddonacci: 274568
+Time to execute MultiRecursiveOddonacci: 20000115358
+Time to execute LinearRecursiveOddonacci: 305382
